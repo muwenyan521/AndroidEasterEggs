@@ -46,6 +46,7 @@ include(
 
     ":basic",
     ":jvm-basic",
+    ":desktop",
 
     ":eggs:Base",
     ":eggs:Gingerbread",
