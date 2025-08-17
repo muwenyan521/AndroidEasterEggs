@@ -1,17 +1,23 @@
 plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
-    alias(libs.plugins.compose.compiler) apply false
-    alias(libs.plugins.hilt.android) apply false
-    alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.jvm)
+    id("org.jetbrains.compose") version "1.5.10"
 }
 
-tasks.wrapper {
-    distributionType = Wrapper.DistributionType.ALL
+dependencies {
+    implementation(compose.desktop.currentOs)
+    implementation(project(":app"))
 }
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.layout.buildDirectory)
+compose.desktop {
+    application {
+        mainClass = "com.dede.android_eggs.desktop.MainKt"
+        
+        targets = listOf(org.jetbrains.compose.desktop.application.dsl.Target.Windows)
+        
+        nativeDistributions {
+            targetFormats(org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi, org.jetbrains.compose.desktop.application.dsl.TargetFormat.Exe)
+            packageName = "Android Easter Eggs"
+            packageVersion = "1.0.0"
+        }
+    }
 }
